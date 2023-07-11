@@ -1,19 +1,16 @@
 /**
  * @file http_session.h
  * @brief HTTPSession封装
- * @author sylar.yin
- * @email 564628276@qq.com
- * @date 2019-06-07
- * @copyright Copyright (c) 2019年 sylar.yin All rights reserved (www.sylar.top)
+ * @author obeast-dragon
  */
 
-#ifndef __SYLAR_HTTP_SESSION_H__
-#define __SYLAR_HTTP_SESSION_H__
+#ifndef __OBEAST_HTTP_SESSION_H__
+#define __OBEAST_HTTP_SESSION_H__
 
 #include "../streams/socket_stream.h"
 #include "http.h"
 
-namespace sylar {
+namespace obeast {
 namespace http {
 
 /**

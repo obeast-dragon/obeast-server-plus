@@ -10,7 +10,7 @@
 #include "config.h"
 #include "env.h"
 
-namespace sylar {
+namespace obeast {
 
 const char *LogLevel::ToString(LogLevel::Level level) {
     switch (level) {
@@ -686,23 +686,23 @@ public:
     }
 };
 
-sylar::ConfigVar<std::set<LogDefine>>::ptr g_log_defines = 
-    sylar::Config::Lookup("logs", std::set<LogDefine>(), "logs config");
+obeast::ConfigVar<std::set<LogDefine>>::ptr g_log_defines = 
+    obeast::Config::Lookup("logs", std::set<LogDefine>(), "logs config");
 
 struct LogIniter {
     LogIniter() {
         g_log_defines->addListener([](const std::set<LogDefine> &old_value, const std::set<LogDefine> &new_value){
-            SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "on log config changed";
+            OBEAST_LOG_INFO(OBEAST_LOG_ROOT()) << "on log config changed";
             for(auto &i : new_value) {
                 auto it = old_value.find(i);
-                sylar::Logger::ptr logger;
+                obeast::Logger::ptr logger;
                 if(it == old_value.end()) {
                     // 新增logger
-                    logger = SYLAR_LOG_NAME(i.name);
+                    logger = OBEAST_LOG_NAME(i.name);
                 } else {
                     if(!(i == *it)) {
                         // 修改的logger
-                        logger == SYLAR_LOG_NAME(i.name);
+                        logger == OBEAST_LOG_NAME(i.name);
                     } else {
                         continue;
                     }
@@ -710,12 +710,12 @@ struct LogIniter {
                 logger->setLevel(i.level);
                 logger->clearAppenders();
                 for(auto &a : i.appenders) {
-                    sylar::LogAppender::ptr ap;
+                    obeast::LogAppender::ptr ap;
                     if(a.type == 1) {
                         ap.reset(new FileLogAppender(a.file));
                     } else if(a.type == 2) {
                         // 如果以daemon方式运行，则不需要创建终端appender
-                        if(!sylar::EnvMgr::GetInstance()->has("d")) {
+                        if(!obeast::EnvMgr::GetInstance()->has("d")) {
                             ap.reset(new StdoutLogAppender);
                         } else {
                             continue;
@@ -734,7 +734,7 @@ struct LogIniter {
             for(auto &i : old_value) {
                 auto it = new_value.find(i);
                 if(it == new_value.end()) {
-                    auto logger = SYLAR_LOG_NAME(i.name);
+                    auto logger = OBEAST_LOG_NAME(i.name);
                     logger->setLevel(LogLevel::NOTSET);
                     logger->clearAppenders();
                 }
@@ -749,4 +749,4 @@ static LogIniter __log_init;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-} // end namespace sylar
+} // end namespace obeast

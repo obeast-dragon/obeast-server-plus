@@ -4,8 +4,8 @@
  * @version 0.1
  * @date 2021-06-09
  */
-#ifndef __SYLAR_MUTEX_H__
-#define __SYLAR_MUTEX_H__
+#ifndef __OBEAST_MUTEX_H__
+#define __OBEAST_MUTEX_H__
 
 #include <thread>
 #include <functional>
@@ -18,7 +18,7 @@
 
 #include "noncopyable.h"
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief 信号量
@@ -429,6 +429,6 @@ private:
     volatile std::atomic_flag m_mutex;
 };
 
-} // namespace sylar
+} // namespace obeast
 
-#endif // __SYLAR_MUTEX_H__
+#endif // __OBEAST_MUTEX_H__

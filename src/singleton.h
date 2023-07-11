@@ -1,17 +1,14 @@
 /**
  * @file singleton.h
  * @brief 单例模式封装
- * @author sylar.yin
- * @email 564628276@qq.com
- * @date 2019-05-18
- * @copyright Copyright (c) 2019年 sylar.yin All rights reserved (www.sylar.top)
+ * @author obeast-dragon
  */
-#ifndef __SYLAR_SINGLETON_H__
-#define __SYLAR_SINGLETON_H__
+#ifndef __OBEAST_SINGLETON_H__
+#define __OBEAST_SINGLETON_H__
 
 #include <memory>
 
-namespace sylar {
+namespace obeast {
 
 namespace {
 

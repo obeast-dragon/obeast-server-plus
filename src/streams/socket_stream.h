@@ -1,20 +1,17 @@
 /**
  * @file socket_stream.h
  * @brief Socket流式接口封装
- * @author sylar.yin
- * @email 564628276@qq.com
- * @date 2019-06-06
- * @copyright Copyright (c) 2019年 sylar.yin All rights reserved (www.sylar.top)
+ * @author obeast-dargon
  */
-#ifndef __SYLAR_SOCKET_STREAM_H__
-#define __SYLAR_SOCKET_STREAM_H__
+#ifndef __OBEAST_SOCKET_STREAM_H__
+#define __OBEAST_SOCKET_STREAM_H__
 
 #include "../stream.h"
 #include "../socket.h"
 #include "../mutex.h"
 #include "../iomanager.h"
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief Socket流

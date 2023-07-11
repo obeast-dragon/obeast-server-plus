@@ -14,9 +14,9 @@
 #include "src/util.h"
 
 
-namespace sylar {
+namespace obeast {
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
+static obeast::Logger::ptr g_logger = OBEAST_LOG_NAME("system");
 
 ConfigVarBase::ptr Config::LookupBase(const std::string &name) {
     RWMutexType::ReadLock lock(GetMutex());
@@ -33,7 +33,7 @@ static void ListAllMember(const std::string &prefix,
                           const YAML::Node &node,
                           std::list<std::pair<std::string, const YAML::Node>> &output) {
     if (prefix.find_first_not_of("abcdefghikjlmnopqrstuvwxyz._012345678") != std::string::npos) {
-        SYLAR_LOG_ERROR(g_logger) << "Config invalid name: " << prefix << " : " << node;
+        OBEAST_LOG_ERROR(g_logger) << "Config invalid name: " << prefix << " : " << node;
         return;
     }
     output.push_back(std::make_pair(prefix, node));
@@ -75,10 +75,10 @@ void Config::LoadFromYaml(const YAML::Node &root) {
 /// 记录每个文件的修改时间
 static std::map<std::string, uint64_t> s_file2modifytime;
 /// 是否强制加载配置文件，非强制加载的情况下，如果记录的文件修改时间未变化，则跳过该文件的加载
-static sylar::Mutex s_mutex;
+static obeast::Mutex s_mutex;
 
 void Config::LoadFromConfDir(const std::string &path, bool force) {
-    std::string absoulte_path = sylar::EnvMgr::GetInstance()->getAbsolutePath(path);
+    std::string absoulte_path = obeast::EnvMgr::GetInstance()->getAbsolutePath(path);
     std::vector<std::string> files;
     FSUtil::ListAllFile(files, absoulte_path, ".yml");
 
@@ -86,7 +86,7 @@ void Config::LoadFromConfDir(const std::string &path, bool force) {
         {
             struct stat st;
             lstat(i.c_str(), &st);
-            sylar::Mutex::Lock lock(s_mutex);
+            obeast::Mutex::Lock lock(s_mutex);
             if (!force && s_file2modifytime[i] == (uint64_t)st.st_mtime) {
                 continue;
             }
@@ -95,10 +95,10 @@ void Config::LoadFromConfDir(const std::string &path, bool force) {
         try {
             YAML::Node root = YAML::LoadFile(i);
             LoadFromYaml(root);
-            SYLAR_LOG_INFO(g_logger) << "LoadConfFile file="
+            OBEAST_LOG_INFO(g_logger) << "LoadConfFile file="
                                      << i << " ok";
         } catch (...) {
-            SYLAR_LOG_ERROR(g_logger) << "LoadConfFile file="
+            OBEAST_LOG_ERROR(g_logger) << "LoadConfFile file="
                                       << i << " failed";
         }
     }
@@ -113,4 +113,4 @@ void Config::Visit(std::function<void(ConfigVarBase::ptr)> cb) {
     }
 }
 
-} // namespace sylar
+} // namespace obeast

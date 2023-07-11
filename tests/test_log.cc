@@ -9,52 +9,52 @@
 
 #include <unistd.h>
 
-sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT(); // 默认INFO级别
+obeast::Logger::ptr g_logger = OBEAST_LOG_ROOT(); // 默认INFO级别
 
 int main(int argc, char *argv[]) {
-    sylar::EnvMgr::GetInstance()->init(argc, argv);
-    sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
+    obeast::EnvMgr::GetInstance()->init(argc, argv);
+    obeast::Config::LoadFromConfDir(obeast::EnvMgr::GetInstance()->getConfigPath());
 
-    SYLAR_LOG_FATAL(g_logger) << "fatal msg";
-    SYLAR_LOG_ERROR(g_logger) << "err msg";
-    SYLAR_LOG_INFO(g_logger) << "info msg";
-    SYLAR_LOG_DEBUG(g_logger) << "debug msg";
+    OBEAST_LOG_FATAL(g_logger) << "fatal msg";
+    OBEAST_LOG_ERROR(g_logger) << "err msg";
+    OBEAST_LOG_INFO(g_logger) << "info msg";
+    OBEAST_LOG_DEBUG(g_logger) << "debug msg";
 
-    SYLAR_LOG_FMT_FATAL(g_logger, "fatal %s:%d", __FILE__, __LINE__);
-    SYLAR_LOG_FMT_ERROR(g_logger, "err %s:%d", __FILE__, __LINE__);
-    SYLAR_LOG_FMT_INFO(g_logger, "info %s:%d", __FILE__, __LINE__);
-    SYLAR_LOG_FMT_DEBUG(g_logger, "debug %s:%d", __FILE__, __LINE__);
+    OBEAST_LOG_FMT_FATAL(g_logger, "fatal %s:%d", __FILE__, __LINE__);
+    OBEAST_LOG_FMT_ERROR(g_logger, "err %s:%d", __FILE__, __LINE__);
+    OBEAST_LOG_FMT_INFO(g_logger, "info %s:%d", __FILE__, __LINE__);
+    OBEAST_LOG_FMT_DEBUG(g_logger, "debug %s:%d", __FILE__, __LINE__);
    
     sleep(1);
-    sylar::SetThreadName("brand_new_thread");
+    obeast::SetThreadName("brand_new_thread");
 
-    g_logger->setLevel(sylar::LogLevel::WARN);
-    SYLAR_LOG_FATAL(g_logger) << "fatal msg";
-    SYLAR_LOG_ERROR(g_logger) << "err msg";
-    SYLAR_LOG_INFO(g_logger) << "info msg"; // 不打印
-    SYLAR_LOG_DEBUG(g_logger) << "debug msg"; // 不打印
+    g_logger->setLevel(obeast::LogLevel::WARN);
+    OBEAST_LOG_FATAL(g_logger) << "fatal msg";
+    OBEAST_LOG_ERROR(g_logger) << "err msg";
+    OBEAST_LOG_INFO(g_logger) << "info msg"; // 不打印
+    OBEAST_LOG_DEBUG(g_logger) << "debug msg"; // 不打印
 
 
-    sylar::FileLogAppender::ptr fileAppender(new sylar::FileLogAppender("./log.txt"));
+    obeast::FileLogAppender::ptr fileAppender(new obeast::FileLogAppender("./log.txt"));
     g_logger->addAppender(fileAppender);
-    SYLAR_LOG_FATAL(g_logger) << "fatal msg";
-    SYLAR_LOG_ERROR(g_logger) << "err msg";
-    SYLAR_LOG_INFO(g_logger) << "info msg"; // 不打印
-    SYLAR_LOG_DEBUG(g_logger) << "debug msg"; // 不打印
+    OBEAST_LOG_FATAL(g_logger) << "fatal msg";
+    OBEAST_LOG_ERROR(g_logger) << "err msg";
+    OBEAST_LOG_INFO(g_logger) << "info msg"; // 不打印
+    OBEAST_LOG_DEBUG(g_logger) << "debug msg"; // 不打印
 
-    sylar::Logger::ptr test_logger = SYLAR_LOG_NAME("test_logger");
-    sylar::StdoutLogAppender::ptr appender(new sylar::StdoutLogAppender);
-    sylar::LogFormatter::ptr formatter(new sylar::LogFormatter("%d:%rms%T%p%T%c%T%f:%l %m%n")); // 时间：启动毫秒数 级别 日志名称 文件名：行号 消息 换行
+    obeast::Logger::ptr test_logger = OBEAST_LOG_NAME("test_logger");
+    obeast::StdoutLogAppender::ptr appender(new obeast::StdoutLogAppender);
+    obeast::LogFormatter::ptr formatter(new obeast::LogFormatter("%d:%rms%T%p%T%c%T%f:%l %m%n")); // 时间：启动毫秒数 级别 日志名称 文件名：行号 消息 换行
     appender->setFormatter(formatter);
     test_logger->addAppender(appender);
-    test_logger->setLevel(sylar::LogLevel::WARN);
+    test_logger->setLevel(obeast::LogLevel::WARN);
 
-    SYLAR_LOG_ERROR(test_logger) << "err msg";
-    SYLAR_LOG_INFO(test_logger) << "info msg"; // 不打印
+    OBEAST_LOG_ERROR(test_logger) << "err msg";
+    OBEAST_LOG_INFO(test_logger) << "info msg"; // 不打印
 
     // 输出全部日志器的配置
-    g_logger->setLevel(sylar::LogLevel::INFO);
-    SYLAR_LOG_INFO(g_logger) << "logger config:" << sylar::LoggerMgr::GetInstance()->toYamlString();
+    g_logger->setLevel(obeast::LogLevel::INFO);
+    OBEAST_LOG_INFO(g_logger) << "logger config:" << obeast::LoggerMgr::GetInstance()->toYamlString();
 
     return 0;
 }

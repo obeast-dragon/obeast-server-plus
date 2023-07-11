@@ -1,15 +1,15 @@
-#include "address.h"
-#include "log.h"
 #include <sstream>
 #include <netdb.h>
 #include <ifaddrs.h>
 #include <stddef.h>
 
 #include "endian.h"
+#include "address.h"
+#include "log.h"
 
-namespace sylar {
+namespace obeast {
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
+static obeast::Logger::ptr g_logger = OBEAST_LOG_NAME("system");
 
 template <class T>
 static T CreateMask(uint32_t bits) {
@@ -94,7 +94,7 @@ bool Address::Lookup(std::vector<Address::ptr> &result, const std::string &host,
     }
     int error = getaddrinfo(node.c_str(), service, &hints, &results);
     if (error) {
-        SYLAR_LOG_DEBUG(g_logger) << "Address::Lookup getaddress(" << host << ", "
+        OBEAST_LOG_DEBUG(g_logger) << "Address::Lookup getaddress(" << host << ", "
                                   << family << ", " << type << ") err=" << error << " errstr="
                                   << gai_strerror(error);
         return false;
@@ -104,7 +104,7 @@ bool Address::Lookup(std::vector<Address::ptr> &result, const std::string &host,
     while (next) {
         result.push_back(Create(next->ai_addr, (socklen_t)next->ai_addrlen));
         /// 一个ip/端口可以对应多种接字类型，比如SOCK_STREAM, SOCK_DGRAM, SOCK_RAW，所以这里会返回重复的结果
-        SYLAR_LOG_DEBUG(g_logger) << "family:" << next->ai_family << ", sock type:" << next->ai_socktype;
+        OBEAST_LOG_DEBUG(g_logger) << "family:" << next->ai_family << ", sock type:" << next->ai_socktype;
         next = next->ai_next;
     }
 
@@ -116,7 +116,7 @@ bool Address::GetInterfaceAddresses(std::multimap<std::string, std::pair<Address
                                     int family) {
     struct ifaddrs *next, *results;
     if (getifaddrs(&results) != 0) {
-        SYLAR_LOG_DEBUG(g_logger) << "Address::GetInterfaceAddresses getifaddrs "
+        OBEAST_LOG_DEBUG(g_logger) << "Address::GetInterfaceAddresses getifaddrs "
                                      " err="
                                   << errno << " errstr=" << strerror(errno);
         return false;
@@ -153,7 +153,7 @@ bool Address::GetInterfaceAddresses(std::multimap<std::string, std::pair<Address
             }
         }
     } catch (...) {
-        SYLAR_LOG_ERROR(g_logger) << "Address::GetInterfaceAddresses exception";
+        OBEAST_LOG_ERROR(g_logger) << "Address::GetInterfaceAddresses exception";
         freeifaddrs(results);
         return false;
     }
@@ -245,7 +245,7 @@ IPAddress::ptr IPAddress::Create(const char *address, uint16_t port) {
 
     int error = getaddrinfo(address, NULL, &hints, &results);
     if (error) {
-        SYLAR_LOG_DEBUG(g_logger) << "IPAddress::Create(" << address
+        OBEAST_LOG_DEBUG(g_logger) << "IPAddress::Create(" << address
                                   << ", " << port << ") error=" << error
                                   << " errno=" << errno << " errstr=" << strerror(errno);
         return nullptr;
@@ -270,7 +270,7 @@ IPv4Address::ptr IPv4Address::Create(const char *address, uint16_t port) {
     rt->m_addr.sin_port = byteswapOnLittleEndian(port);
     int result          = inet_pton(AF_INET, address, &rt->m_addr.sin_addr);
     if (result <= 0) {
-        SYLAR_LOG_DEBUG(g_logger) << "IPv4Address::Create(" << address << ", "
+        OBEAST_LOG_DEBUG(g_logger) << "IPv4Address::Create(" << address << ", "
                                   << port << ") rt=" << result << " errno=" << errno
                                   << " errstr=" << strerror(errno);
         return nullptr;
@@ -354,7 +354,7 @@ IPv6Address::ptr IPv6Address::Create(const char *address, uint16_t port) {
     rt->m_addr.sin6_port = byteswapOnLittleEndian(port);
     int result           = inet_pton(AF_INET6, address, &rt->m_addr.sin6_addr);
     if (result <= 0) {
-        SYLAR_LOG_DEBUG(g_logger) << "IPv6Address::Create(" << address << ", "
+        OBEAST_LOG_DEBUG(g_logger) << "IPv6Address::Create(" << address << ", "
                                   << port << ") rt=" << result << " errno=" << errno
                                   << " errstr=" << strerror(errno);
         return nullptr;
@@ -544,4 +544,4 @@ std::ostream &operator<<(std::ostream &os, const Address &addr) {
     return addr.insert(os);
 }
 
-} // namespace sylar
+} // namespace obeast

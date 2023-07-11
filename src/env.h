@@ -5,8 +5,8 @@
  * @date 2021-06-13
  */
 
-#ifndef __SYLAR_ENV_H__
-#define __SYLAR_ENV_H__
+#ifndef __OBEAST_ENV_H__
+#define __OBEAST_ENV_H__
 
 #include "singleton.h"
 #include "mutex.h"
@@ -14,7 +14,7 @@
 #include <vector>
 #include <string>
 
-namespace sylar {
+namespace obeast {
 
 class Env {
 public:
@@ -123,8 +123,8 @@ private:
 /**
  * @brief 环境变量管理类单例
  */
-typedef sylar::Singleton<Env> EnvMgr;
+typedef obeast::Singleton<Env> EnvMgr;
 
-} // namespace sylar
+} // namespace obeast
 
 #endif

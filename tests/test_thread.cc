@@ -6,33 +6,33 @@
  */
 #include "src/obeast.h"
 
-sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+obeast::Logger::ptr g_logger = OBEAST_LOG_ROOT();
 
 int count = 0;
-sylar::Mutex s_mutex;
+obeast::Mutex s_mutex;
 
 void func1(void *arg) {
-    SYLAR_LOG_INFO(g_logger) << "name:" << sylar::Thread::GetName()
-        << " this.name:" << sylar::Thread::GetThis()->getName()
-        << " thread name:" << sylar::GetThreadName()
-        << " id:" << sylar::GetThreadId()
-        << " this.id:" << sylar::Thread::GetThis()->getId();
-    SYLAR_LOG_INFO(g_logger) << "arg: " << *(int*)arg;
+    OBEAST_LOG_INFO(g_logger) << "name:" << obeast::Thread::GetName()
+        << " this.name:" << obeast::Thread::GetThis()->getName()
+        << " thread name:" << obeast::GetThreadName()
+        << " id:" << obeast::GetThreadId()
+        << " this.id:" << obeast::Thread::GetThis()->getId();
+    OBEAST_LOG_INFO(g_logger) << "arg: " << *(int*)arg;
     for(int i = 0; i < 10000; i++) {
-        sylar::Mutex::Lock lock(s_mutex);
+        obeast::Mutex::Lock lock(s_mutex);
         ++count;
     }
 }
 
 int main(int argc, char *argv[]) {
-    sylar::EnvMgr::GetInstance()->init(argc, argv);
-    sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
+    obeast::EnvMgr::GetInstance()->init(argc, argv);
+    obeast::Config::LoadFromConfDir(obeast::EnvMgr::GetInstance()->getConfigPath());
 
-    std::vector<sylar::Thread::ptr> thrs;
+    std::vector<obeast::Thread::ptr> thrs;
     int arg = 123456;
     for(int i = 0; i < 3; i++) {
         // 带参数的线程用std::bind进行参数绑定
-        sylar::Thread::ptr thr(new sylar::Thread(std::bind(func1, &arg), "thread_" + std::to_string(i)));
+        obeast::Thread::ptr thr(new obeast::Thread(std::bind(func1, &arg), "thread_" + std::to_string(i)));
         thrs.push_back(thr);
     }
 
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
         thrs[i]->join();
     }
     
-    SYLAR_LOG_INFO(g_logger) << "count = " << count;
+    OBEAST_LOG_INFO(g_logger) << "count = " << count;
     return 0;
 }
 

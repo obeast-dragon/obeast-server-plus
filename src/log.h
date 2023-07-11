@@ -5,8 +5,8 @@
  * @date 2021-06-08
  */
 
-#ifndef __SYLAR_LOG_H__
-#define __SYLAR_LOG_H__
+#ifndef __OBEAST_LOG_H__
+#define __OBEAST_LOG_H__
 
 #include <string>
 #include <memory>
@@ -25,68 +25,68 @@
 /**
  * @brief 获取root日志器
  */
-#define SYLAR_LOG_ROOT() sylar::LoggerMgr::GetInstance()->getRoot()
+#define OBEAST_LOG_ROOT() obeast::LoggerMgr::GetInstance()->getRoot()
 
 /**
  * @brief 获取指定名称的日志器
  */
-#define SYLAR_LOG_NAME(name) sylar::LoggerMgr::GetInstance()->getLogger(name)
+#define OBEAST_LOG_NAME(name) obeast::LoggerMgr::GetInstance()->getLogger(name)
 
 /**
  * @brief 使用流式方式将日志级别level的日志写入到logger
  * @details 构造一个LogEventWrap对象，包裹包含日志器和日志事件，在对象析构时调用日志器写日志事件
  * @todo 协程id未实现，暂时写0
  */
-#define SYLAR_LOG_LEVEL(logger , level) \
+#define OBEAST_LOG_LEVEL(logger , level) \
     if(level <= logger->getLevel()) \
-        sylar::LogEventWrap(logger, sylar::LogEvent::ptr(new sylar::LogEvent(logger->getName(), \
-            level, __FILE__, __LINE__, sylar::GetElapsedMS() - logger->getCreateTime(), \
-            sylar::GetThreadId(), sylar::GetFiberId(), time(0), sylar::GetThreadName()))).getLogEvent()->getSS()
+        obeast::LogEventWrap(logger, obeast::LogEvent::ptr(new obeast::LogEvent(logger->getName(), \
+            level, __FILE__, __LINE__, obeast::GetElapsedMS() - logger->getCreateTime(), \
+            obeast::GetThreadId(), obeast::GetFiberId(), time(0), obeast::GetThreadName()))).getLogEvent()->getSS()
 
-#define SYLAR_LOG_FATAL(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::FATAL)
+#define OBEAST_LOG_FATAL(logger) OBEAST_LOG_LEVEL(logger, obeast::LogLevel::FATAL)
 
-#define SYLAR_LOG_ALERT(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::ALERT)
+#define OBEAST_LOG_ALERT(logger) OBEAST_LOG_LEVEL(logger, obeast::LogLevel::ALERT)
 
-#define SYLAR_LOG_CRIT(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::CRIT)
+#define OBEAST_LOG_CRIT(logger) OBEAST_LOG_LEVEL(logger, obeast::LogLevel::CRIT)
 
-#define SYLAR_LOG_ERROR(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::ERROR)
+#define OBEAST_LOG_ERROR(logger) OBEAST_LOG_LEVEL(logger, obeast::LogLevel::ERROR)
 
-#define SYLAR_LOG_WARN(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::WARN)
+#define OBEAST_LOG_WARN(logger) OBEAST_LOG_LEVEL(logger, obeast::LogLevel::WARN)
 
-#define SYLAR_LOG_NOTICE(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::NOTICE)
+#define OBEAST_LOG_NOTICE(logger) OBEAST_LOG_LEVEL(logger, obeast::LogLevel::NOTICE)
 
-#define SYLAR_LOG_INFO(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::INFO)
+#define OBEAST_LOG_INFO(logger) OBEAST_LOG_LEVEL(logger, obeast::LogLevel::INFO)
 
-#define SYLAR_LOG_DEBUG(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::DEBUG)
+#define OBEAST_LOG_DEBUG(logger) OBEAST_LOG_LEVEL(logger, obeast::LogLevel::DEBUG)
 
 /**
  * @brief 使用C printf方式将日志级别level的日志写入到logger
  * @details 构造一个LogEventWrap对象，包裹包含日志器和日志事件，在对象析构时调用日志器写日志事件
  * @todo 协程id未实现，暂时写0
  */
-#define SYLAR_LOG_FMT_LEVEL(logger, level, fmt, ...) \
+#define OBEAST_LOG_FMT_LEVEL(logger, level, fmt, ...) \
     if(level <= logger->getLevel()) \
-        sylar::LogEventWrap(logger, sylar::LogEvent::ptr(new sylar::LogEvent(logger->getName(), \
-            level, __FILE__, __LINE__, sylar::GetElapsedMS() - logger->getCreateTime(), \
-            sylar::GetThreadId(), sylar::GetFiberId(), time(0), sylar::GetThreadName()))).getLogEvent()->printf(fmt, __VA_ARGS__)
+        obeast::LogEventWrap(logger, obeast::LogEvent::ptr(new obeast::LogEvent(logger->getName(), \
+            level, __FILE__, __LINE__, obeast::GetElapsedMS() - logger->getCreateTime(), \
+            obeast::GetThreadId(), obeast::GetFiberId(), time(0), obeast::GetThreadName()))).getLogEvent()->printf(fmt, __VA_ARGS__)
 
-#define SYLAR_LOG_FMT_FATAL(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::FATAL, fmt, __VA_ARGS__)
+#define OBEAST_LOG_FMT_FATAL(logger, fmt, ...) OBEAST_LOG_FMT_LEVEL(logger, obeast::LogLevel::FATAL, fmt, __VA_ARGS__)
 
-#define SYLAR_LOG_FMT_ALERT(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::ALERT, fmt, __VA_ARGS__)
+#define OBEAST_LOG_FMT_ALERT(logger, fmt, ...) OBEAST_LOG_FMT_LEVEL(logger, obeast::LogLevel::ALERT, fmt, __VA_ARGS__)
 
-#define SYLAR_LOG_FMT_CRIT(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::CRIT, fmt, __VA_ARGS__)
+#define OBEAST_LOG_FMT_CRIT(logger, fmt, ...) OBEAST_LOG_FMT_LEVEL(logger, obeast::LogLevel::CRIT, fmt, __VA_ARGS__)
 
-#define SYLAR_LOG_FMT_ERROR(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::ERROR, fmt, __VA_ARGS__)
+#define OBEAST_LOG_FMT_ERROR(logger, fmt, ...) OBEAST_LOG_FMT_LEVEL(logger, obeast::LogLevel::ERROR, fmt, __VA_ARGS__)
 
-#define SYLAR_LOG_FMT_WARN(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::WARN, fmt, __VA_ARGS__)
+#define OBEAST_LOG_FMT_WARN(logger, fmt, ...) OBEAST_LOG_FMT_LEVEL(logger, obeast::LogLevel::WARN, fmt, __VA_ARGS__)
 
-#define SYLAR_LOG_FMT_NOTICE(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::NOTICE, fmt, __VA_ARGS__)
+#define OBEAST_LOG_FMT_NOTICE(logger, fmt, ...) OBEAST_LOG_FMT_LEVEL(logger, obeast::LogLevel::NOTICE, fmt, __VA_ARGS__)
 
-#define SYLAR_LOG_FMT_INFO(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::INFO, fmt, __VA_ARGS__)
+#define OBEAST_LOG_FMT_INFO(logger, fmt, ...) OBEAST_LOG_FMT_LEVEL(logger, obeast::LogLevel::INFO, fmt, __VA_ARGS__)
 
-#define SYLAR_LOG_FMT_DEBUG(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::DEBUG, fmt, __VA_ARGS__)
+#define OBEAST_LOG_FMT_DEBUG(logger, fmt, ...) OBEAST_LOG_FMT_LEVEL(logger, obeast::LogLevel::DEBUG, fmt, __VA_ARGS__)
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief 日志级别
@@ -252,7 +252,7 @@ public:
 
     /**
      * @brief 构造函数
-     * @param[in] pattern 格式模板，参考sylar与log4cpp
+     * @param[in] pattern 格式模板，参考obeast与log4cpp
      * @details 模板参数说明：
      * - %%m 消息
      * - %%p 日志级别
@@ -589,8 +589,8 @@ private:
 };
 
 /// 日志器管理类单例
-typedef sylar::Singleton<LoggerManager> LoggerMgr;
+typedef obeast::Singleton<LoggerManager> LoggerMgr;
 
-} // end namespace sylar
+} // end namespace obeast
 
-#endif // __SYLAR_LOG_H__
+#endif // __OBEAST_LOG_H__

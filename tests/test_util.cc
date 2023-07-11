@@ -6,10 +6,10 @@
  */
 #include "src/obeast.h"
 
-sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+obeast::Logger::ptr g_logger = OBEAST_LOG_ROOT();
 
 void test2() {
-    std::cout << sylar::BacktraceToString() << std::endl;
+    std::cout << obeast::BacktraceToString() << std::endl;
 }
 void test1() {
     test2();
@@ -20,23 +20,23 @@ void test_backtrace() {
 }
 
 int main() {
-    SYLAR_LOG_INFO(g_logger) << sylar::GetCurrentMS();
-    SYLAR_LOG_INFO(g_logger) << sylar::GetCurrentUS();
-    SYLAR_LOG_INFO(g_logger) << sylar::ToUpper("hello");
-    SYLAR_LOG_INFO(g_logger) << sylar::ToLower("HELLO");
-    SYLAR_LOG_INFO(g_logger) << sylar::Time2Str();
-    SYLAR_LOG_INFO(g_logger) << sylar::Str2Time("1970-01-01 00:00:00"); // -28800
+    OBEAST_LOG_INFO(g_logger) << obeast::GetCurrentMS();
+    OBEAST_LOG_INFO(g_logger) << obeast::GetCurrentUS();
+    OBEAST_LOG_INFO(g_logger) << obeast::ToUpper("hello");
+    OBEAST_LOG_INFO(g_logger) << obeast::ToLower("HELLO");
+    OBEAST_LOG_INFO(g_logger) << obeast::Time2Str();
+    OBEAST_LOG_INFO(g_logger) << obeast::Str2Time("1970-01-01 00:00:00"); // -28800
 
     std::vector<std::string> files;
-    sylar::FSUtil::ListAllFile(files, "./sylar", ".cpp");
+    obeast::FSUtil::ListAllFile(files, "./obeast", ".cpp");
     for (auto &i : files) {
-        SYLAR_LOG_INFO(g_logger) << i;
+        OBEAST_LOG_INFO(g_logger) << i;
     }
 
     // todo, more...
 
     test_backtrace();
 
-    SYLAR_ASSERT2(false, "assert");
+    OBEAST_ASSERT2(false, "assert");
     return 0;
 }

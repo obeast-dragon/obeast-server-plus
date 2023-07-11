@@ -19,9 +19,9 @@
 #include "log.h"
 #include "fiber.h"
 
-namespace sylar {
+namespace obeast {
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
+static obeast::Logger::ptr g_logger = OBEAST_LOG_NAME("system");
 
 pid_t GetThreadId() {
     return syscall(SYS_gettid);
@@ -72,7 +72,7 @@ void Backtrace(std::vector<std::string> &bt, int size, int skip) {
 
     char **strings = backtrace_symbols(array, s);
     if (strings == NULL) {
-        SYLAR_LOG_ERROR(g_logger) << "backtrace_synbols error";
+        OBEAST_LOG_ERROR(g_logger) << "backtrace_synbols error";
         return;
     }
 
@@ -556,4 +556,4 @@ std::wstring StringUtil::StringToWString(const std::string& s) {
 }
 
 
-} // namespace sylar
+} // namespace obeast

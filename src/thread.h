@@ -1,18 +1,18 @@
 /**
  * @file thread.h
  * @brief 线程相关的封装
- * @author sylar.yin
+ * @author obeast.yin
  * @email 564628276@qq.com
  * @date 2019-05-31
- * @copyright Copyright (c) 2019年 sylar.yin All rights reserved (www.sylar.top)
+ * @copyright Copyright (c) 2019年 obeast.yin All rights reserved (www.sylar.top)
  */
-#ifndef __SYLAR_THREAD_H__
-#define __SYLAR_THREAD_H__
+#ifndef __OBEAST_THREAD_H__
+#define __OBEAST_THREAD_H__
 
 #include "mutex.h"
 #include <string>
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief 线程类
@@ -84,6 +84,6 @@ private:
     Semaphore m_semaphore;
 };
 
-} // namespace sylar
+} // namespace obeast
 
 #endif

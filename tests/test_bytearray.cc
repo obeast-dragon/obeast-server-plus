@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <src/obeast.h>
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+static obeast::Logger::ptr g_logger = OBEAST_LOG_ROOT();
 
 void test() {
 /* 
@@ -22,17 +22,17 @@ void test() {
         for (int i = 0; i < len; ++i) {                            \
             vec.push_back(rand());                                 \
         }                                                          \
-        sylar::ByteArray::ptr ba(new sylar::ByteArray(base_len));  \
+        obeast::ByteArray::ptr ba(new obeast::ByteArray(base_len));  \
         for (auto &i : vec) {                                      \
             ba->write_fun(i);                                      \
         }                                                          \
         ba->setPosition(0);                                        \
         for (size_t i = 0; i < vec.size(); ++i) {                  \
             type v = ba->read_fun();                               \
-            SYLAR_ASSERT(v == vec[i]);                             \
+            OBEAST_ASSERT(v == vec[i]);                             \
         }                                                          \
-        SYLAR_ASSERT(ba->getReadSize() == 0);                      \
-        SYLAR_LOG_INFO(g_logger) << #write_fun "/" #read_fun       \
+        OBEAST_ASSERT(ba->getReadSize() == 0);                      \
+        OBEAST_LOG_INFO(g_logger) << #write_fun "/" #read_fun       \
                                                " (" #type ") len=" \
                                  << len                            \
                                  << " base_len=" << base_len       \
@@ -65,29 +65,29 @@ void test() {
         for (int i = 0; i < len; ++i) {                                               \
             vec.push_back(rand());                                                    \
         }                                                                             \
-        sylar::ByteArray::ptr ba(new sylar::ByteArray(base_len));                     \
+        obeast::ByteArray::ptr ba(new obeast::ByteArray(base_len));                     \
         for (auto &i : vec) {                                                         \
             ba->write_fun(i);                                                         \
         }                                                                             \
         ba->setPosition(0);                                                           \
         for (size_t i = 0; i < vec.size(); ++i) {                                     \
             type v = ba->read_fun();                                                  \
-            SYLAR_ASSERT(v == vec[i]);                                                \
+            OBEAST_ASSERT(v == vec[i]);                                                \
         }                                                                             \
-        SYLAR_ASSERT(ba->getReadSize() == 0);                                         \
-        SYLAR_LOG_INFO(g_logger) << #write_fun "/" #read_fun                          \
+        OBEAST_ASSERT(ba->getReadSize() == 0);                                         \
+        OBEAST_LOG_INFO(g_logger) << #write_fun "/" #read_fun                          \
                                                " (" #type ") len="                    \
                                  << len                                               \
                                  << " base_len=" << base_len                          \
                                  << " size=" << ba->getSize();                        \
         ba->setPosition(0);                                                           \
-        SYLAR_ASSERT(ba->writeToFile("/tmp/" #type "_" #len "-" #read_fun ".dat"));   \
-        sylar::ByteArray::ptr ba2(new sylar::ByteArray(base_len * 2));                \
-        SYLAR_ASSERT(ba2->readFromFile("/tmp/" #type "_" #len "-" #read_fun ".dat")); \
+        OBEAST_ASSERT(ba->writeToFile("/tmp/" #type "_" #len "-" #read_fun ".dat"));   \
+        obeast::ByteArray::ptr ba2(new obeast::ByteArray(base_len * 2));                \
+        OBEAST_ASSERT(ba2->readFromFile("/tmp/" #type "_" #len "-" #read_fun ".dat")); \
         ba2->setPosition(0);                                                          \
-        SYLAR_ASSERT(ba->toString() == ba2->toString());                              \
-        SYLAR_ASSERT(ba->getPosition() == 0);                                         \
-        SYLAR_ASSERT(ba2->getPosition() == 0);                                        \
+        OBEAST_ASSERT(ba->toString() == ba2->toString());                              \
+        OBEAST_ASSERT(ba->getPosition() == 0);                                         \
+        OBEAST_ASSERT(ba2->getPosition() == 0);                                        \
     }
     XX(int8_t, 100, writeFint8, readFint8, 1);
     XX(uint8_t, 100, writeFuint8, readFuint8, 1);
@@ -116,17 +116,17 @@ void test() {
             random_shuffle(s.begin(), s.end());                   \
             vec.push_back(s);                                     \
         }                                                         \
-        sylar::ByteArray::ptr ba(new sylar::ByteArray(base_len)); \
+        obeast::ByteArray::ptr ba(new obeast::ByteArray(base_len)); \
         for (auto &i : vec) {                                     \
             ba->write_fun(i);                                     \
         }                                                         \
         ba->setPosition(0);                                       \
         for (size_t i = 0; i < vec.size(); ++i) {                 \
             std::string v = ba->read_fun();                       \
-            SYLAR_ASSERT(v == vec[i]);                            \
+            OBEAST_ASSERT(v == vec[i]);                            \
         }                                                         \
-        SYLAR_ASSERT(ba->getReadSize() == 0);                     \
-        SYLAR_LOG_INFO(g_logger) << #write_fun "/" #read_fun      \
+        OBEAST_ASSERT(ba->getReadSize() == 0);                     \
+        OBEAST_LOG_INFO(g_logger) << #write_fun "/" #read_fun      \
                                                " ("               \
                                                "string"           \
                                                ") len="           \

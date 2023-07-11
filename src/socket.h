@@ -1,13 +1,13 @@
 /**
  * @file socket.h
  * @brief Socket封装
- * @author sylar.yin
+ * @author obeast.yin
  * @email 564628276@qq.com
  * @date 2019-06-05
- * @copyright Copyright (c) 2019年 sylar.yin All rights reserved (www.sylar.top)
+ * @copyright Copyright (c) 2019年 obeast.yin All rights reserved (www.sylar.top)
  */
-#ifndef __SYLAR_SOCKET_H__
-#define __SYLAR_SOCKET_H__
+#ifndef __OBEAST_SOCKET_H__
+#define __OBEAST_SOCKET_H__
 
 #include <memory>
 #include <netinet/tcp.h>
@@ -16,7 +16,7 @@
 #include "address.h"
 #include "noncopyable.h"
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief Socket封装类
@@ -52,13 +52,13 @@ public:
      * @brief 创建TCP Socket(满足地址类型)
      * @param[in] address 地址
      */
-    static Socket::ptr CreateTCP(sylar::Address::ptr address);
+    static Socket::ptr CreateTCP(obeast::Address::ptr address);
 
     /**
      * @brief 创建UDP Socket(满足地址类型)
      * @param[in] address 地址
      */
-    static Socket::ptr CreateUDP(sylar::Address::ptr address);
+    static Socket::ptr CreateUDP(obeast::Address::ptr address);
 
     /**
      * @brief 创建IPv4的TCP Socket
@@ -398,6 +398,6 @@ protected:
  */
 std::ostream &operator<<(std::ostream &os, const Socket &sock);
 
-} // namespace sylar
+} // namespace obeast
 
 #endif

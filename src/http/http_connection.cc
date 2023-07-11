@@ -9,10 +9,10 @@
 #include "http_parser.h"
 #include "../log.h"
 
-namespace sylar {
+namespace obeast {
 namespace http {
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
+static obeast::Logger::ptr g_logger = OBEAST_LOG_NAME("system");
 
 std::string HttpResult::toString() const {
     std::stringstream ss;
@@ -28,7 +28,7 @@ HttpConnection::HttpConnection(Socket::ptr sock, bool owner)
 }
 
 HttpConnection::~HttpConnection() {
-    SYLAR_LOG_DEBUG(g_logger) << "HttpConnection::~HttpConnection";
+    OBEAST_LOG_DEBUG(g_logger) << "HttpConnection::~HttpConnection";
 }
 
 HttpResponse::ptr HttpConnection::recvResponse() {
@@ -88,7 +88,7 @@ HttpResponse::ptr HttpConnection::recvResponse() {
     //         } while(!parser->isFinished());
     //         len -= 2;
             
-    //         SYLAR_LOG_INFO(g_logger) << "content_len=" << client_parser.content_len;
+    //         OBEAST_LOG_INFO(g_logger) << "content_len=" << client_parser.content_len;
     //         if(client_parser.content_len <= len) {
     //             body.append(data, client_parser.content_len);
     //             memmove(data, data + client_parser.content_len
@@ -283,7 +283,7 @@ HttpConnectionPool::HttpConnectionPool(const std::string& host
 }
 
 HttpConnection::ptr HttpConnectionPool::getConnection() {
-    uint64_t now_ms = sylar::GetCurrentMS();
+    uint64_t now_ms = obeast::GetCurrentMS();
     std::vector<HttpConnection*> invalid_conns;
     HttpConnection* ptr = nullptr;
     MutexType::Lock lock(m_mutex);
@@ -310,17 +310,17 @@ HttpConnection::ptr HttpConnectionPool::getConnection() {
     if(!ptr) {
         IPAddress::ptr addr = Address::LookupAnyIPAddress(m_host);
         if(!addr) {
-            SYLAR_LOG_ERROR(g_logger) << "get addr fail: " << m_host;
+            OBEAST_LOG_ERROR(g_logger) << "get addr fail: " << m_host;
             return nullptr;
         }
         addr->setPort(m_port);
         Socket::ptr sock = Socket::CreateTCP(addr);
         if(!sock) {
-            SYLAR_LOG_ERROR(g_logger) << "create sock fail: " << *addr;
+            OBEAST_LOG_ERROR(g_logger) << "create sock fail: " << *addr;
             return nullptr;
         }
         if(!sock->connect(addr)) {
-            SYLAR_LOG_ERROR(g_logger) << "sock connect fail: " << *addr;
+            OBEAST_LOG_ERROR(g_logger) << "sock connect fail: " << *addr;
             return nullptr;
         }
 
@@ -335,7 +335,7 @@ HttpConnection::ptr HttpConnectionPool::getConnection() {
 void HttpConnectionPool::ReleasePtr(HttpConnection* ptr, HttpConnectionPool* pool) {
     ++ptr->m_request;
     if(!ptr->isConnected()
-            || ((ptr->m_createTime + pool->m_maxAliveTime) >= sylar::GetCurrentMS())
+            || ((ptr->m_createTime + pool->m_maxAliveTime) >= obeast::GetCurrentMS())
             || (ptr->m_request >= pool->m_maxRequest)) {
         delete ptr;
         --pool->m_total;

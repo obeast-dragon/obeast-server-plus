@@ -10,7 +10,7 @@
 #include "uri.h"
 #include "http/http_parser.h"
 
-namespace sylar {
+namespace obeast {
 
 Uri::ptr Uri::Create(const std::string &urlstr) {
     Uri::ptr uri(new Uri);
@@ -129,4 +129,4 @@ Address::ptr Uri::createAddress() const {
     return addr;
 }
 
-} // namespace sylar
+} // namespace obeast

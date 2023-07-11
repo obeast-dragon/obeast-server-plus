@@ -1,10 +1,10 @@
 /**
  * @file fd_manager.h
  * @brief 文件句柄管理类
- * @author sylar.yin
+ * @author obeast.yin
  * @email 564628276@qq.com
  * @date 2019-05-30
- * @copyright Copyright (c) 2019年 sylar.yin All rights reserved (www.sylar.top)
+ * @copyright Copyright (c) 2019年 obeast.yin All rights reserved (www.sylar.top)
  */
 #ifndef __FD_MANAGER_H__
 #define __FD_MANAGER_H__
@@ -14,7 +14,7 @@
 #include "thread.h"
 #include "singleton.h"
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief 文件句柄上下文类

@@ -5,13 +5,13 @@
  * @date 2021-06-16
  */
 
-#ifndef __SYLAR_IOMANAGER_H__
-#define __SYLAR_IOMANAGER_H__
+#ifndef __OBEAST_IOMANAGER_H__
+#define __OBEAST_IOMANAGER_H__
 
 #include "scheduler.h"
 #include "timer.h"
 
-namespace sylar {
+namespace obeast {
 
 class IOManager : public Scheduler, public TimerManager {
 public:
@@ -41,7 +41,7 @@ private:
         /**
          * @brief 事件上下文类
          * @details fd的每个事件都有一个事件上下文，保存这个事件的回调函数以及执行回调函数的调度器
-         *          sylar对fd事件做了简化，只预留了读事件和写事件，所有的事件都被归类到这两类事件中
+         *          obeast对fd事件做了简化，只预留了读事件和写事件，所有的事件都被归类到这两类事件中
          */
         struct EventContext {
             /// 执行事件回调的调度器
@@ -189,6 +189,6 @@ private:
     std::vector<FdContext *> m_fdContexts;
 };
 
-} // end namespace sylar
+} // end namespace obeast
 
 #endif

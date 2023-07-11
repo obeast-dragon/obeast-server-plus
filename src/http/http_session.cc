@@ -1,7 +1,7 @@
 #include "http_session.h"
 #include "http_parser.h"
 
-namespace sylar {
+namespace obeast {
 namespace http {
 
 HttpSession::HttpSession(Socket::ptr sock, bool owner)
@@ -39,7 +39,7 @@ HttpRequest::ptr HttpSession::recvRequest() {
         }
     } while (true);
 
-    // 与sylar的HTTP解析库不一样的是，nodejs/http-parser解析结束时body部分已经解析完了，所以这里不再需要单独读取body
+    // 与obeast的HTTP解析库不一样的是，nodejs/http-parser解析结束时body部分已经解析完了，所以这里不再需要单独读取body
     
     // int64_t length = parser->getContentLength();
     // if (length > 0) {
@@ -76,4 +76,4 @@ int HttpSession::sendResponse(HttpResponse::ptr rsp) {
 }
 
 } // namespace http
-} // namespace sylar
+} // namespace obeast

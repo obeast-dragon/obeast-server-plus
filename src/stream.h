@@ -1,18 +1,15 @@
 /**
  * @file stream.h
  * @brief 流接口
- * @author sylar.yin
- * @email 564628276@qq.com
- * @date 2019-06-06
- * @copyright Copyright (c) 2019年 sylar.yin All rights reserved (www.sylar.top)
+ * @author obeast-dragon
  */
-#ifndef __SYLAR_STREAM_H__
-#define __SYLAR_STREAM_H__
+#ifndef __OBEAST_STREAM_H__
+#define __OBEAST_STREAM_H__
 
 #include <memory>
 #include "bytearray.h"
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief 流结构

@@ -9,7 +9,7 @@
 
 #include "mutex.h"
 
-namespace sylar {
+namespace obeast {
 
 Semaphore::Semaphore(uint32_t count) {
     if(sem_init(&m_semaphore, 0, count)) {
@@ -33,4 +33,4 @@ void Semaphore::notify() {
     }
 }
 
-} // namespace sylar
+} // namespace obeast

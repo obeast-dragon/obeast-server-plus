@@ -1,20 +1,17 @@
 /**
  * @file http_server.h
  * @brief HTTP服务器封装
- * @author sylar.yin
- * @email 564628276@qq.com
- * @date 2019-06-09
- * @copyright Copyright (c) 2019年 sylar.yin All rights reserved (www.sylar.top)
+ * @author obeast-dargon
  */
 
-#ifndef __SYLAR_HTTP_HTTP_SERVER_H__
-#define __SYLAR_HTTP_HTTP_SERVER_H__
+#ifndef __OBEAST_HTTP_HTTP_SERVER_H__
+#define __OBEAST_HTTP_HTTP_SERVER_H__
 
 #include "../tcp_server.h"
 #include "http_session.h"
 #include "servlet.h"
 
-namespace sylar {
+namespace obeast {
 namespace http {
 
 /**
@@ -32,9 +29,9 @@ public:
      * @param[in] accept_worker 接收连接调度器
      */
     HttpServer(bool keepalive = false
-               ,sylar::IOManager* worker = sylar::IOManager::GetThis()
-               ,sylar::IOManager* io_worker = sylar::IOManager::GetThis()
-               ,sylar::IOManager* accept_worker = sylar::IOManager::GetThis());
+               ,obeast::IOManager* worker = obeast::IOManager::GetThis()
+               ,obeast::IOManager* io_worker = obeast::IOManager::GetThis()
+               ,obeast::IOManager* accept_worker = obeast::IOManager::GetThis());
 
     /**
      * @brief 获取ServletDispatch

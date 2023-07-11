@@ -5,8 +5,8 @@
  * @date 2021-06-15
  */
 
-#ifndef __SYLAR_SCHEDULER_H__
-#define __SYLAR_SCHEDULER_H__
+#ifndef __OBEAST_SCHEDULER_H__
+#define __OBEAST_SCHEDULER_H__
 
 #include <functional>
 #include <list>
@@ -16,7 +16,7 @@
 #include "log.h"
 #include "thread.h"
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief 协程调度器
@@ -193,6 +193,6 @@ private:
     bool m_stopping = false;
 };
 
-} // end namespace sylar
+} // end namespace obeast
 
 #endif

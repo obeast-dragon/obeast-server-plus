@@ -1,13 +1,10 @@
 /**
  * @file servlet.h
  * @brief Servlet封装
- * @author sylar.yin
- * @email 564628276@qq.com
- * @date 2019-06-08
- * @copyright Copyright (c) 2019年 sylar.yin All rights reserved (www.sylar.top)
+ * @author obeast-dargon
  */
-#ifndef __SYLAR_HTTP_SERVLET_H__
-#define __SYLAR_HTTP_SERVLET_H__
+#ifndef __OBEAST_HTTP_SERVLET_H__
+#define __OBEAST_HTTP_SERVLET_H__
 
 #include <memory>
 #include <functional>
@@ -19,7 +16,7 @@
 #include "../thread.h"
 #include "../util.h"
 
-namespace sylar {
+namespace obeast {
 namespace http {
 
 /**
@@ -49,9 +46,9 @@ public:
      * @param[in] session HTTP连接
      * @return 是否处理成功
      */
-    virtual int32_t handle(sylar::http::HttpRequest::ptr request
-                   , sylar::http::HttpResponse::ptr response
-                   , sylar::http::HttpSession::ptr session) = 0;
+    virtual int32_t handle(obeast::http::HttpRequest::ptr request
+                   , obeast::http::HttpResponse::ptr response
+                   , obeast::http::HttpSession::ptr session) = 0;
                    
     /**
      * @brief 返回Servlet名称
@@ -70,9 +67,9 @@ public:
     /// 智能指针类型定义
     typedef std::shared_ptr<FunctionServlet> ptr;
     /// 函数回调类型定义
-    typedef std::function<int32_t (sylar::http::HttpRequest::ptr request
-                   , sylar::http::HttpResponse::ptr response
-                   , sylar::http::HttpSession::ptr session)> callback;
+    typedef std::function<int32_t (obeast::http::HttpRequest::ptr request
+                   , obeast::http::HttpResponse::ptr response
+                   , obeast::http::HttpSession::ptr session)> callback;
 
 
     /**
@@ -80,9 +77,9 @@ public:
      * @param[in] cb 回调函数
      */
     FunctionServlet(callback cb);
-    virtual int32_t handle(sylar::http::HttpRequest::ptr request
-                   , sylar::http::HttpResponse::ptr response
-                   , sylar::http::HttpSession::ptr session) override;
+    virtual int32_t handle(obeast::http::HttpRequest::ptr request
+                   , obeast::http::HttpResponse::ptr response
+                   , obeast::http::HttpSession::ptr session) override;
 private:
     /// 回调函数
     callback m_cb;
@@ -145,9 +142,9 @@ public:
      * @brief 构造函数
      */
     ServletDispatch();
-    virtual int32_t handle(sylar::http::HttpRequest::ptr request
-                   , sylar::http::HttpResponse::ptr response
-                   , sylar::http::HttpSession::ptr session) override;
+    virtual int32_t handle(obeast::http::HttpRequest::ptr request
+                   , obeast::http::HttpResponse::ptr response
+                   , obeast::http::HttpSession::ptr session) override;
 
     /**
      * @brief 添加servlet
@@ -165,14 +162,14 @@ public:
 
     /**
      * @brief 添加模糊匹配servlet
-     * @param[in] uri uri 模糊匹配 /sylar_*
+     * @param[in] uri uri 模糊匹配 /obeast_*
      * @param[in] slt servlet
      */
     void addGlobServlet(const std::string& uri, Servlet::ptr slt);
 
     /**
      * @brief 添加模糊匹配servlet
-     * @param[in] uri uri 模糊匹配 /sylar_*
+     * @param[in] uri uri 模糊匹配 /obeast_*
      * @param[in] cb FunctionServlet回调函数
      */
     void addGlobServlet(const std::string& uri, FunctionServlet::callback cb);
@@ -241,10 +238,10 @@ private:
     /// 读写互斥量
     RWMutexType m_mutex;
     /// 精准匹配servlet MAP
-    /// uri(/sylar/xxx) -> servlet
+    /// uri(/obeast/xxx) -> servlet
     std::unordered_map<std::string, IServletCreator::ptr> m_datas;
     /// 模糊匹配servlet 数组
-    /// uri(/sylar/*) -> servlet
+    /// uri(/obeast/*) -> servlet
     std::vector<std::pair<std::string, IServletCreator::ptr> > m_globs;
     /// 默认servlet，所有路径都没匹配到时使用
     Servlet::ptr m_default;
@@ -261,9 +258,9 @@ public:
      * @brief 构造函数
      */
     NotFoundServlet(const std::string& name);
-    virtual int32_t handle(sylar::http::HttpRequest::ptr request
-                   , sylar::http::HttpResponse::ptr response
-                   , sylar::http::HttpSession::ptr session) override;
+    virtual int32_t handle(obeast::http::HttpRequest::ptr request
+                   , obeast::http::HttpResponse::ptr response
+                   , obeast::http::HttpSession::ptr session) override;
 
 private:
     std::string m_name;

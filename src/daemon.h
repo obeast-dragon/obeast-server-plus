@@ -5,14 +5,14 @@
  * @date 2021-12-09
  */
 
-#ifndef __SYLAR_DAEMON_H__
-#define __SYLAR_DAEMON_H__
+#ifndef __OBEAST_DAEMON_H__
+#define __OBEAST_DAEMON_H__
 
 #include <unistd.h>
 #include <functional>
 #include "singleton.h"
 
-namespace sylar {
+namespace obeast {
 
 struct ProcessInfo {
     /// 父进程id
@@ -29,7 +29,7 @@ struct ProcessInfo {
     std::string toString() const;
 };
 
-typedef sylar::Singleton<ProcessInfo> ProcessInfoMgr;
+typedef obeast::Singleton<ProcessInfo> ProcessInfoMgr;
 
 /**
  * @brief 启动程序可以选择用守护进程的方式

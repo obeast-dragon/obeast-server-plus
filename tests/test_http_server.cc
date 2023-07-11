@@ -6,32 +6,32 @@
  */
 #include "src/obeast.h"
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+static obeast::Logger::ptr g_logger = OBEAST_LOG_ROOT();
 
 #define XX(...) #__VA_ARGS__
 
-sylar::IOManager::ptr worker;
+obeast::IOManager::ptr worker;
 
 void run() {
-    g_logger->setLevel(sylar::LogLevel::INFO);
-    //sylar::http::HttpServer::ptr server(new sylar::http::HttpServer(true, worker.get(), sylar::IOManager::GetThis()));
-    sylar::http::HttpServer::ptr server(new sylar::http::HttpServer(true));
-    sylar::Address::ptr addr = sylar::Address::LookupAnyIPAddress("0.0.0.0:8020");
+    g_logger->setLevel(obeast::LogLevel::INFO);
+    //obeast::http::HttpServer::ptr server(new obeast::http::HttpServer(true, worker.get(), obeast::IOManager::GetThis()));
+    obeast::http::HttpServer::ptr server(new obeast::http::HttpServer(true));
+    obeast::Address::ptr addr = obeast::Address::LookupAnyIPAddress("0.0.0.0:8020");
     while (!server->bind(addr)) {
         sleep(2);
     }
     auto sd = server->getServletDispatch();
-    sd->addServlet("/sylar/xx", [](sylar::http::HttpRequest::ptr req, sylar::http::HttpResponse::ptr rsp, sylar::http::HttpSession::ptr session) {
+    sd->addServlet("/obeast/xx", [](obeast::http::HttpRequest::ptr req, obeast::http::HttpResponse::ptr rsp, obeast::http::HttpSession::ptr session) {
         rsp->setBody(req->toString());
         return 0;
     });
 
-    sd->addGlobServlet("/sylar/*", [](sylar::http::HttpRequest::ptr req, sylar::http::HttpResponse::ptr rsp, sylar::http::HttpSession::ptr session) {
+    sd->addGlobServlet("/obeast/*", [](obeast::http::HttpRequest::ptr req, obeast::http::HttpResponse::ptr rsp, obeast::http::HttpSession::ptr session) {
         rsp->setBody("Glob:\r\n" + req->toString());
         return 0;
     });
 
-    sd->addGlobServlet("/sylarx/*", [](sylar::http::HttpRequest::ptr req, sylar::http::HttpResponse::ptr rsp, sylar::http::HttpSession::ptr session) {
+    sd->addGlobServlet("/obeastx/*", [](obeast::http::HttpRequest::ptr req, obeast::http::HttpResponse::ptr rsp, obeast::http::HttpSession::ptr session) {
         rsp->setBody(XX(<html>
                                 <head><title> 404 Not Found</ title></ head>
                                 <body>
@@ -60,11 +60,11 @@ void run() {
 }
 
 int main(int argc, char **argv) {
-    sylar::EnvMgr::GetInstance()->init(argc, argv);
-    sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
+    obeast::EnvMgr::GetInstance()->init(argc, argv);
+    obeast::Config::LoadFromConfDir(obeast::EnvMgr::GetInstance()->getConfigPath());
     
-    sylar::IOManager iom(1, true, "main");
-    worker.reset(new sylar::IOManager(3, false, "worker"));
+    obeast::IOManager iom(1, true, "main");
+    worker.reset(new obeast::IOManager(3, false, "worker"));
     iom.schedule(run);
     return 0;
 }

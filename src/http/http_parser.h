@@ -4,12 +4,12 @@
  * @version 0.1
  * @date 2021-09-25
  */
-#ifndef __SYLAR_HTTP_PARSER_H__
-#define __SYLAR_HTTP_PARSER_H__
+#ifndef __OBEAST_HTTP_PARSER_H__
+#define __OBEAST_HTTP_PARSER_H__
 
 #include "http.h"
 
-namespace sylar {
+namespace obeast {
 namespace http {
 
 /**
@@ -188,6 +188,6 @@ private:
 };
 
 } // namespace http
-} // namespace sylar
+} // namespace obeast
 
 #endif

@@ -7,7 +7,7 @@
 
 #include "src/obeast.h"
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+static obeast::Logger::ptr g_logger = OBEAST_LOG_ROOT();
 
 const char *family2str(int family) {
     switch (family) {
@@ -27,20 +27,20 @@ const char *family2str(int family) {
  * @param[in] family 地址类型
  */
 void test_ifaces(int family) {
-    SYLAR_LOG_INFO(g_logger) << "test_ifaces: " << family2str(family);
+    OBEAST_LOG_INFO(g_logger) << "test_ifaces: " << family2str(family);
 
-    std::multimap<std::string, std::pair<sylar::Address::ptr, uint32_t>> results;
-    bool v = sylar::Address::GetInterfaceAddresses(results, family);
+    std::multimap<std::string, std::pair<obeast::Address::ptr, uint32_t>> results;
+    bool v = obeast::Address::GetInterfaceAddresses(results, family);
     if (!v) {
-        SYLAR_LOG_ERROR(g_logger) << "GetInterfaceAddresses fail";
+        OBEAST_LOG_ERROR(g_logger) << "GetInterfaceAddresses fail";
         return;
     }
     for (auto &i : results) {
-        SYLAR_LOG_INFO(g_logger) << i.first << " - " << i.second.first->toString() << " - "
+        OBEAST_LOG_INFO(g_logger) << i.first << " - " << i.second.first->toString() << " - "
                                  << i.second.second;
     }
     
-    SYLAR_LOG_INFO(g_logger) << "\n";
+    OBEAST_LOG_INFO(g_logger) << "\n";
 }
 
 /**
@@ -49,19 +49,19 @@ void test_ifaces(int family) {
  * @param[in] family 地址类型
  */
 void test_iface(const char *iface, int family) {
-    SYLAR_LOG_INFO(g_logger) << "test_iface: " << iface << ", " << family2str(family);
+    OBEAST_LOG_INFO(g_logger) << "test_iface: " << iface << ", " << family2str(family);
 
-    std::vector<std::pair<sylar::Address::ptr, uint32_t>> result;
-    bool v = sylar::Address::GetInterfaceAddresses(result, iface, family);
+    std::vector<std::pair<obeast::Address::ptr, uint32_t>> result;
+    bool v = obeast::Address::GetInterfaceAddresses(result, iface, family);
     if(!v) {
-        SYLAR_LOG_ERROR(g_logger) << "GetInterfaceAddresses fail";
+        OBEAST_LOG_ERROR(g_logger) << "GetInterfaceAddresses fail";
         return;
     }
     for(auto &i : result) {
-        SYLAR_LOG_INFO(g_logger) << i.first->toString() << " - " << i.second;
+        OBEAST_LOG_INFO(g_logger) << i.first->toString() << " - " << i.second;
     }
 
-    SYLAR_LOG_INFO(g_logger) << "\n";
+    OBEAST_LOG_INFO(g_logger) << "\n";
 }
 
 /**
@@ -70,93 +70,93 @@ void test_iface(const char *iface, int family) {
  * @note 这里没有区分不同的套接字类型，所以会有重复值
  */
 void test_lookup(const char *host) {
-    SYLAR_LOG_INFO(g_logger) << "test_lookup: " << host;
+    OBEAST_LOG_INFO(g_logger) << "test_lookup: " << host;
 
-    SYLAR_LOG_INFO(g_logger) <<"Lookup:";
-    std::vector<sylar::Address::ptr> results;
-    bool v = sylar::Address::Lookup(results, host, AF_INET);
+    OBEAST_LOG_INFO(g_logger) <<"Lookup:";
+    std::vector<obeast::Address::ptr> results;
+    bool v = obeast::Address::Lookup(results, host, AF_INET);
     if(!v) {
-        SYLAR_LOG_ERROR(g_logger) << "Lookup fail";
+        OBEAST_LOG_ERROR(g_logger) << "Lookup fail";
         return;
     }
     for(auto &i : results) {
-        SYLAR_LOG_INFO(g_logger) << i->toString();
+        OBEAST_LOG_INFO(g_logger) << i->toString();
     }
     
-    SYLAR_LOG_INFO(g_logger) <<"LookupAny:";
-    auto addr2 = sylar::Address::LookupAny(host);
-    SYLAR_LOG_INFO(g_logger) << addr2->toString();
+    OBEAST_LOG_INFO(g_logger) <<"LookupAny:";
+    auto addr2 = obeast::Address::LookupAny(host);
+    OBEAST_LOG_INFO(g_logger) << addr2->toString();
 
-    SYLAR_LOG_INFO(g_logger) <<"LookupAnyIPAddress:";
-    auto addr1 = sylar::Address::LookupAnyIPAddress(host);
-    SYLAR_LOG_INFO(g_logger) << addr1->toString();
+    OBEAST_LOG_INFO(g_logger) <<"LookupAnyIPAddress:";
+    auto addr1 = obeast::Address::LookupAnyIPAddress(host);
+    OBEAST_LOG_INFO(g_logger) << addr1->toString();
 
-    SYLAR_LOG_INFO(g_logger) << "\n";
+    OBEAST_LOG_INFO(g_logger) << "\n";
 }
 
 /**
  * @brief IPv4地址类测试
  */
 void test_ipv4() {
-    SYLAR_LOG_INFO(g_logger) << "test_ipv4";
+    OBEAST_LOG_INFO(g_logger) << "test_ipv4";
 
-    auto addr = sylar::IPAddress::Create("192.168.1.120");
+    auto addr = obeast::IPAddress::Create("192.168.1.120");
     if (!addr) {
-        SYLAR_LOG_ERROR(g_logger) << "IPAddress::Create error";
+        OBEAST_LOG_ERROR(g_logger) << "IPAddress::Create error";
         return;
     }
-    SYLAR_LOG_INFO(g_logger) << "addr: " << addr->toString();
-    SYLAR_LOG_INFO(g_logger) << "family: " << family2str(addr->getFamily());  
-    SYLAR_LOG_INFO(g_logger) << "port: " << addr->getPort();  
-    SYLAR_LOG_INFO(g_logger) << "addr length: " << addr->getAddrLen(); 
+    OBEAST_LOG_INFO(g_logger) << "addr: " << addr->toString();
+    OBEAST_LOG_INFO(g_logger) << "family: " << family2str(addr->getFamily());  
+    OBEAST_LOG_INFO(g_logger) << "port: " << addr->getPort();  
+    OBEAST_LOG_INFO(g_logger) << "addr length: " << addr->getAddrLen(); 
 
-    SYLAR_LOG_INFO(g_logger) << "broadcast addr: " << addr->broadcastAddress(24)->toString();
-    SYLAR_LOG_INFO(g_logger) << "network addr: " << addr->networkAddress(24)->toString();
-    SYLAR_LOG_INFO(g_logger) << "subnet mask addr: " << addr->subnetMask(24)->toString();
+    OBEAST_LOG_INFO(g_logger) << "broadcast addr: " << addr->broadcastAddress(24)->toString();
+    OBEAST_LOG_INFO(g_logger) << "network addr: " << addr->networkAddress(24)->toString();
+    OBEAST_LOG_INFO(g_logger) << "subnet mask addr: " << addr->subnetMask(24)->toString();
 
-    SYLAR_LOG_INFO(g_logger) << "\n";
+    OBEAST_LOG_INFO(g_logger) << "\n";
 }
 
 /**
  * @brief IPv6地址类测试
  */
 void test_ipv6() {
-    SYLAR_LOG_INFO(g_logger) << "test_ipv6";
+    OBEAST_LOG_INFO(g_logger) << "test_ipv6";
 
-    auto addr = sylar::IPAddress::Create("fe80::215:5dff:fe88:d8a");
+    auto addr = obeast::IPAddress::Create("fe80::215:5dff:fe88:d8a");
     if (!addr) {
-        SYLAR_LOG_ERROR(g_logger) << "IPAddress::Create error";
+        OBEAST_LOG_ERROR(g_logger) << "IPAddress::Create error";
         return;
     }
-    SYLAR_LOG_INFO(g_logger) << "addr: " << addr->toString();
-    SYLAR_LOG_INFO(g_logger) << "family: " << family2str(addr->getFamily());  
-    SYLAR_LOG_INFO(g_logger) << "port: " << addr->getPort();  
-    SYLAR_LOG_INFO(g_logger) << "addr length: " << addr->getAddrLen(); 
+    OBEAST_LOG_INFO(g_logger) << "addr: " << addr->toString();
+    OBEAST_LOG_INFO(g_logger) << "family: " << family2str(addr->getFamily());  
+    OBEAST_LOG_INFO(g_logger) << "port: " << addr->getPort();  
+    OBEAST_LOG_INFO(g_logger) << "addr length: " << addr->getAddrLen(); 
 
-    SYLAR_LOG_INFO(g_logger) << "broadcast addr: " << addr->broadcastAddress(64)->toString();
-    SYLAR_LOG_INFO(g_logger) << "network addr: " << addr->networkAddress(64)->toString();
-    SYLAR_LOG_INFO(g_logger) << "subnet mask addr: " << addr->subnetMask(64)->toString();
-    SYLAR_LOG_INFO(g_logger) << "\n";
+    OBEAST_LOG_INFO(g_logger) << "broadcast addr: " << addr->broadcastAddress(64)->toString();
+    OBEAST_LOG_INFO(g_logger) << "network addr: " << addr->networkAddress(64)->toString();
+    OBEAST_LOG_INFO(g_logger) << "subnet mask addr: " << addr->subnetMask(64)->toString();
+    OBEAST_LOG_INFO(g_logger) << "\n";
 }
 
 /**
  * @brief Unix套接字解析
  */
 void test_unix() {
-    SYLAR_LOG_INFO(g_logger) << "test_unix";
+    OBEAST_LOG_INFO(g_logger) << "test_unix";
     
-    auto addr = sylar::UnixAddress("/tmp/test_unix.sock");
-    SYLAR_LOG_INFO(g_logger) << "addr: " << addr.toString();
-    SYLAR_LOG_INFO(g_logger) << "family: " << family2str(addr.getFamily());  
-    SYLAR_LOG_INFO(g_logger) << "path: " << addr.getPath(); 
-    SYLAR_LOG_INFO(g_logger) << "addr length: " << addr.getAddrLen(); 
+    auto addr = obeast::UnixAddress("/tmp/test_unix.sock");
+    OBEAST_LOG_INFO(g_logger) << "addr: " << addr.toString();
+    OBEAST_LOG_INFO(g_logger) << "family: " << family2str(addr.getFamily());  
+    OBEAST_LOG_INFO(g_logger) << "path: " << addr.getPath(); 
+    OBEAST_LOG_INFO(g_logger) << "addr length: " << addr.getAddrLen(); 
 
-    SYLAR_LOG_INFO(g_logger) << "\n";
+    OBEAST_LOG_INFO(g_logger) << "\n";
 }
 
 int main(int argc, char *argv[]) {
-    sylar::EnvMgr::GetInstance()->init(argc, argv);
-    sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
+    obeast::EnvMgr::GetInstance()->init(argc, argv);
+    obeast::Config::LoadFromConfDir(obeast::EnvMgr::GetInstance()->getConfigPath());
 
     // 获取本机所有网卡的IPv4地址和IPv6地址以及掩码长度
     test_ifaces(AF_INET);

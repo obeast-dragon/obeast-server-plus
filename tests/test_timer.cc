@@ -7,13 +7,13 @@
 
 #include "src/obeast.h"
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+static obeast::Logger::ptr g_logger = OBEAST_LOG_ROOT();
 
 static int timeout = 1000;
-static sylar::Timer::ptr s_timer;
+static obeast::Timer::ptr s_timer;
 
 void timer_callback() {
-    SYLAR_LOG_INFO(g_logger) << "timer callback, timeout = " << timeout;
+    OBEAST_LOG_INFO(g_logger) << "timer callback, timeout = " << timeout;
     timeout += 1000;
     if(timeout < 5000) {
         s_timer->reset(timeout, true);
@@ -23,27 +23,27 @@ void timer_callback() {
 }
 
 void test_timer() {
-    sylar::IOManager iom;
+    obeast::IOManager iom;
 
     // 循环定时器
     s_timer = iom.addTimer(1000, timer_callback, true);
     
     // 单次定时器
     iom.addTimer(500, []{
-        SYLAR_LOG_INFO(g_logger) << "500ms timeout";
+        OBEAST_LOG_INFO(g_logger) << "500ms timeout";
     });
     iom.addTimer(5000, []{
-        SYLAR_LOG_INFO(g_logger) << "5000ms timeout";
+        OBEAST_LOG_INFO(g_logger) << "5000ms timeout";
     });
 }
 
 int main(int argc, char *argv[]) {
-    sylar::EnvMgr::GetInstance()->init(argc, argv);
-    sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
+    obeast::EnvMgr::GetInstance()->init(argc, argv);
+    obeast::Config::LoadFromConfDir(obeast::EnvMgr::GetInstance()->getConfigPath());
 
     test_timer();
 
-    SYLAR_LOG_INFO(g_logger) << "end";
+    OBEAST_LOG_INFO(g_logger) << "end";
 
     return 0;
 }

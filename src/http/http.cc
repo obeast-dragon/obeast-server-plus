@@ -7,7 +7,7 @@
 #include "http.h"
 #include "../util.h"
 
-namespace sylar {
+namespace obeast {
 namespace http {
 
 HttpMethod StringToHttpMethod(const std::string &m) {
@@ -160,7 +160,7 @@ std::string HttpRequest::toString() const {
 
 std::ostream &HttpRequest::dump(std::ostream &os) const {
     //GET /uri HTTP/1.1
-    //Host: wwww.sylar.top
+    //Host: wwww.obeast.top
     //
     //
     os << HttpMethodToString(m_method) << " "
@@ -214,14 +214,14 @@ void HttpRequest::initQueryParam() {
                                                                                                            \
         if (0) {                                                                                           \
             std::cout << "<key>:" << str.substr(last, key - last)                                          \
-                      << " <decoded>:" << sylar::StringUtil::UrlDecode(str.substr(last, key - last))       \
+                      << " <decoded>:" << obeast::StringUtil::UrlDecode(str.substr(last, key - last))       \
                       << " <value>:" << str.substr(key + 1, pos - key - 1)                                 \
-                      << " <decoded>:" << sylar::StringUtil::UrlDecode(str.substr(key + 1, pos - key - 1)) \
+                      << " <decoded>:" << obeast::StringUtil::UrlDecode(str.substr(key + 1, pos - key - 1)) \
                       << std::endl;                                                                        \
         }                                                                                                  \
                                                                                                            \
-        m.insert(std::make_pair(sylar::StringUtil::UrlDecode(trim(str.substr(last, key - last))),          \
-                                sylar::StringUtil::UrlDecode(str.substr(key + 1, pos - key - 1))));        \
+        m.insert(std::make_pair(obeast::StringUtil::UrlDecode(trim(str.substr(last, key - last))),          \
+                                obeast::StringUtil::UrlDecode(str.substr(key + 1, pos - key - 1))));        \
         if (pos == std::string::npos) {                                                                    \
             break;                                                                                         \
         }                                                                                                  \
@@ -254,7 +254,7 @@ void HttpRequest::initCookies() {
         m_parserParamFlag |= 0x4;
         return;
     }
-    PARSE_PARAM(cookie, m_cookies, ';', sylar::StringUtil::Trim);
+    PARSE_PARAM(cookie, m_cookies, ';', obeast::StringUtil::Trim);
     m_parserParamFlag |= 0x4;
 }
 
@@ -300,7 +300,7 @@ void HttpResponse::setCookie(const std::string &key, const std::string &val,
     std::stringstream ss;
     ss << key << "=" << val;
     if (expired > 0) {
-        ss << ";expires=" << sylar::Time2Str(expired, "%a, %d %b %Y %H:%M:%S") << " GMT";
+        ss << ";expires=" << obeast::Time2Str(expired, "%a, %d %b %Y %H:%M:%S") << " GMT";
     }
     if (!domain.empty()) {
         ss << ";domain=" << domain;
@@ -361,4 +361,4 @@ std::ostream &operator<<(std::ostream &os, const HttpResponse &rsp) {
 }
 
 } // namespace http
-} // namespace sylar
+} // namespace obeast

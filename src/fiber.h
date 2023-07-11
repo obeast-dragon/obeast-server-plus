@@ -6,15 +6,15 @@
  * @date 2021-06-15
  */
 
-#ifndef __SYLAR_FIBER_H__
-#define __SYLAR_FIBER_H__
+#ifndef __OBEAST_FIBER_H__
+#define __OBEAST_FIBER_H__
 
 #include <functional>
 #include <memory>
 #include <ucontext.h>
 #include "thread.h"
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief 协程类
@@ -25,7 +25,7 @@ public:
 
     /**
      * @brief 协程状态
-     * @details 在sylar基础上进行了状态简化，只定义三态转换关系，也就是协程要么正在运行(RUNNING)，
+     * @details 在obeast基础上进行了状态简化，只定义三态转换关系，也就是协程要么正在运行(RUNNING)，
      * 要么准备运行(READY)，要么运行结束(TERM)。不区分协程的初始状态，初始即READY。不区分协程是异常结束还是正常结束，
      * 只要结束就是TERM状态。也不区别HOLD状态，协程只要未结束也非运行态，那就是READY状态。
      */
@@ -135,6 +135,6 @@ private:
     bool m_runInScheduler;
 };
 
-} // namespace sylar
+} // namespace obeast
 
 #endif

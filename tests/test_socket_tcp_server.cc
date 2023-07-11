@@ -6,42 +6,42 @@
  */
 #include <src/obeast.h>
 
-static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+static obeast::Logger::ptr g_logger = OBEAST_LOG_ROOT();
 
 void test_tcp_server() {
     int ret;
 
-    auto addr = sylar::Address::LookupAnyIPAddress("0.0.0.0:12345");
-    SYLAR_ASSERT(addr);
+    auto addr = obeast::Address::LookupAnyIPAddress("0.0.0.0:12345");
+    OBEAST_ASSERT(addr);
 
-    auto socket = sylar::Socket::CreateTCPSocket();
-    SYLAR_ASSERT(socket);
+    auto socket = obeast::Socket::CreateTCPSocket();
+    OBEAST_ASSERT(socket);
 
     ret = socket->bind(addr);
-    SYLAR_ASSERT(ret);
+    OBEAST_ASSERT(ret);
     
-    SYLAR_LOG_INFO(g_logger) << "bind success";
+    OBEAST_LOG_INFO(g_logger) << "bind success";
 
     ret = socket->listen();
-    SYLAR_ASSERT(ret);
+    OBEAST_ASSERT(ret);
 
-    SYLAR_LOG_INFO(g_logger) << socket->toString() ;
-    SYLAR_LOG_INFO(g_logger) << "listening...";
+    OBEAST_LOG_INFO(g_logger) << socket->toString() ;
+    OBEAST_LOG_INFO(g_logger) << "listening...";
 
     while(1) {
         auto client = socket->accept();
-        SYLAR_ASSERT(client);
-        SYLAR_LOG_INFO(g_logger) << "new client: " << client->toString();
+        OBEAST_ASSERT(client);
+        OBEAST_LOG_INFO(g_logger) << "new client: " << client->toString();
         client->send("hello world", strlen("hello world"));
         client->close();
     }
 }
 
 int main(int argc, char *argv[]) {
-    sylar::EnvMgr::GetInstance()->init(argc, argv);
-    sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
+    obeast::EnvMgr::GetInstance()->init(argc, argv);
+    obeast::Config::LoadFromConfDir(obeast::EnvMgr::GetInstance()->getConfigPath());
 
-    sylar::IOManager iom(2);
+    obeast::IOManager iom(2);
     iom.schedule(&test_tcp_server);
 
     return 0;

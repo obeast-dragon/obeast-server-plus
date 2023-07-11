@@ -7,35 +7,35 @@
 
 #include "src/obeast.h"
 
-sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+obeast::Logger::ptr g_logger = OBEAST_LOG_ROOT();
 
-sylar::ConfigVar<int>::ptr g_int = 
-    sylar::Config::Lookup("global.int", (int)8080, "global int");
+obeast::ConfigVar<int>::ptr g_int = 
+    obeast::Config::Lookup("global.int", (int)8080, "global int");
 
-sylar::ConfigVar<float>::ptr g_float = 
-    sylar::Config::Lookup("global.float", (float)10.2f, "global float");
+obeast::ConfigVar<float>::ptr g_float = 
+    obeast::Config::Lookup("global.float", (float)10.2f, "global float");
 
 // 字符串需显示构造，不能传字符串常量
-sylar::ConfigVar<std::string>::ptr g_string =
-    sylar::Config::Lookup("global.string", std::string("helloworld"), "global string");
+obeast::ConfigVar<std::string>::ptr g_string =
+    obeast::Config::Lookup("global.string", std::string("helloworld"), "global string");
 
-sylar::ConfigVar<std::vector<int>>::ptr g_int_vec = 
-    sylar::Config::Lookup("global.int_vec", std::vector<int>{1, 2, 3}, "global int vec");
+obeast::ConfigVar<std::vector<int>>::ptr g_int_vec = 
+    obeast::Config::Lookup("global.int_vec", std::vector<int>{1, 2, 3}, "global int vec");
 
-sylar::ConfigVar<std::list<int>>::ptr g_int_list = 
-    sylar::Config::Lookup("global.int_list", std::list<int>{1, 2, 3}, "global int list");
+obeast::ConfigVar<std::list<int>>::ptr g_int_list = 
+    obeast::Config::Lookup("global.int_list", std::list<int>{1, 2, 3}, "global int list");
 
-sylar::ConfigVar<std::set<int>>::ptr g_int_set = 
-    sylar::Config::Lookup("global.int_set", std::set<int>{1, 2, 3}, "global int set");
+obeast::ConfigVar<std::set<int>>::ptr g_int_set = 
+    obeast::Config::Lookup("global.int_set", std::set<int>{1, 2, 3}, "global int set");
 
-sylar::ConfigVar<std::unordered_set<int>>::ptr g_int_unordered_set = 
-    sylar::Config::Lookup("global.int_unordered_set", std::unordered_set<int>{1, 2, 3}, "global int unordered_set");
+obeast::ConfigVar<std::unordered_set<int>>::ptr g_int_unordered_set = 
+    obeast::Config::Lookup("global.int_unordered_set", std::unordered_set<int>{1, 2, 3}, "global int unordered_set");
 
-sylar::ConfigVar<std::map<std::string, int>>::ptr g_map_string2int = 
-    sylar::Config::Lookup("global.map_string2int", std::map<std::string, int>{{"key1", 1}, {"key2", 2}}, "global map string2int");
+obeast::ConfigVar<std::map<std::string, int>>::ptr g_map_string2int = 
+    obeast::Config::Lookup("global.map_string2int", std::map<std::string, int>{{"key1", 1}, {"key2", 2}}, "global map string2int");
 
-sylar::ConfigVar<std::unordered_map<std::string, int>>::ptr g_unordered_map_string2int = 
-    sylar::Config::Lookup("global.unordered_map_string2int", std::unordered_map<std::string, int>{{"key1", 1}, {"key2", 2}}, "global unordered_map string2int");
+obeast::ConfigVar<std::unordered_map<std::string, int>>::ptr g_unordered_map_string2int = 
+    obeast::Config::Lookup("global.unordered_map_string2int", std::unordered_map<std::string, int>{{"key1", 1}, {"key2", 2}}, "global unordered_map string2int");
 
 ////////////////////////////////////////////////////////////
 // 自定义配置
@@ -60,8 +60,8 @@ public:
     }
 };
 
-// 实现自定义配置的YAML序列化与反序列化，这部分要放在sylar命名空间中
-namespace sylar {
+// 实现自定义配置的YAML序列化与反序列化，这部分要放在obeast命名空间中
+namespace obeast {
 
 template<>
 class LexicalCast<std::string, Person> {
@@ -90,37 +90,37 @@ public:
     }
 };
 
-} // end namespace sylar
+} // end namespace obeast
 
-sylar::ConfigVar<Person>::ptr g_person = 
-    sylar::Config::Lookup("class.person", Person(), "system person");
+obeast::ConfigVar<Person>::ptr g_person = 
+    obeast::Config::Lookup("class.person", Person(), "system person");
 
-sylar::ConfigVar<std::map<std::string, Person>>::ptr g_person_map = 
-    sylar::Config::Lookup("class.map", std::map<std::string, Person>(), "system person map");
+obeast::ConfigVar<std::map<std::string, Person>>::ptr g_person_map = 
+    obeast::Config::Lookup("class.map", std::map<std::string, Person>(), "system person map");
 
-sylar::ConfigVar<std::map<std::string, std::vector<Person>>>::ptr g_person_vec_map = 
-    sylar::Config::Lookup("class.vec_map", std::map<std::string, std::vector<Person>>(), "system vec map");
+obeast::ConfigVar<std::map<std::string, std::vector<Person>>>::ptr g_person_vec_map = 
+    obeast::Config::Lookup("class.vec_map", std::map<std::string, std::vector<Person>>(), "system vec map");
 
 void test_class() {
     static uint64_t id = 0;
 
     if(!g_person->getListener(id)) {
         id = g_person->addListener([](const Person &old_value, const Person &new_value){
-            SYLAR_LOG_INFO(g_logger) << "g_person value change, old value:" << old_value.toString()
+            OBEAST_LOG_INFO(g_logger) << "g_person value change, old value:" << old_value.toString()
                 << ", new value:" << new_value.toString();
         });
     }
 
-    SYLAR_LOG_INFO(g_logger) << g_person->getValue().toString();
+    OBEAST_LOG_INFO(g_logger) << g_person->getValue().toString();
 
     for (const auto &i : g_person_map->getValue()) {
-        SYLAR_LOG_INFO(g_logger) << i.first << ":" << i.second.toString();
+        OBEAST_LOG_INFO(g_logger) << i.first << ":" << i.second.toString();
     }
 
     for(const auto &i : g_person_vec_map->getValue()) {
-        SYLAR_LOG_INFO(g_logger) << i.first;
+        OBEAST_LOG_INFO(g_logger) << i.first;
         for(const auto &j : i.second) {
-            SYLAR_LOG_INFO(g_logger) << j.toString();
+            OBEAST_LOG_INFO(g_logger) << j.toString();
         }
     }
 }
@@ -150,15 +150,15 @@ std::string formatMap(const T &m) {
 }
 
 void test_config() {
-    SYLAR_LOG_INFO(g_logger) << "g_int value: " << g_int->getValue();
-    SYLAR_LOG_INFO(g_logger) << "g_float value: " << g_float->getValue();
-    SYLAR_LOG_INFO(g_logger) << "g_string value: " << g_string->getValue();
-    SYLAR_LOG_INFO(g_logger) << "g_int_vec value: " << formatArray<std::vector<int>>(g_int_vec->getValue());
-    SYLAR_LOG_INFO(g_logger) << "g_int_list value: " << formatArray<std::list<int>>(g_int_list->getValue());
-    SYLAR_LOG_INFO(g_logger) << "g_int_set value: " << formatArray<std::set<int>>(g_int_set->getValue());
-    SYLAR_LOG_INFO(g_logger) << "g_int_unordered_set value: " << formatArray<std::unordered_set<int>>(g_int_unordered_set->getValue());
-    SYLAR_LOG_INFO(g_logger) << "g_int_map value: " << formatMap<std::map<std::string, int>>(g_map_string2int->getValue());
-    SYLAR_LOG_INFO(g_logger) << "g_int_unordered_map value: " << formatMap<std::unordered_map<std::string, int>>(g_unordered_map_string2int->getValue());
+    OBEAST_LOG_INFO(g_logger) << "g_int value: " << g_int->getValue();
+    OBEAST_LOG_INFO(g_logger) << "g_float value: " << g_float->getValue();
+    OBEAST_LOG_INFO(g_logger) << "g_string value: " << g_string->getValue();
+    OBEAST_LOG_INFO(g_logger) << "g_int_vec value: " << formatArray<std::vector<int>>(g_int_vec->getValue());
+    OBEAST_LOG_INFO(g_logger) << "g_int_list value: " << formatArray<std::list<int>>(g_int_list->getValue());
+    OBEAST_LOG_INFO(g_logger) << "g_int_set value: " << formatArray<std::set<int>>(g_int_set->getValue());
+    OBEAST_LOG_INFO(g_logger) << "g_int_unordered_set value: " << formatArray<std::unordered_set<int>>(g_int_unordered_set->getValue());
+    OBEAST_LOG_INFO(g_logger) << "g_int_map value: " << formatMap<std::map<std::string, int>>(g_map_string2int->getValue());
+    OBEAST_LOG_INFO(g_logger) << "g_int_unordered_map value: " << formatMap<std::unordered_map<std::string, int>>(g_unordered_map_string2int->getValue());
 
     // 自定义配置项
     test_class();
@@ -167,23 +167,23 @@ void test_config() {
 int main(int argc, char *argv[]) {
     // 设置g_int的配置变更回调函数
     g_int->addListener([](const int &old_value, const int &new_value) {
-        SYLAR_LOG_INFO(g_logger) << "g_int value changed, old_value: " << old_value << ", new_value: " << new_value;
+        OBEAST_LOG_INFO(g_logger) << "g_int value changed, old_value: " << old_value << ", new_value: " << new_value;
     });
 
-    SYLAR_LOG_INFO(g_logger) << "before============================";
+    OBEAST_LOG_INFO(g_logger) << "before============================";
 
     test_config();
 
     // 从配置文件中加载配置，由于更新了配置，会触发配置项的配置变更回调函数
-    sylar::EnvMgr::GetInstance()->init(argc, argv);
-    sylar::Config::LoadFromConfDir("conf");
-    SYLAR_LOG_INFO(g_logger) << "after============================";
+    obeast::EnvMgr::GetInstance()->init(argc, argv);
+    obeast::Config::LoadFromConfDir("conf");
+    OBEAST_LOG_INFO(g_logger) << "after============================";
     
     test_config();
 
     // 遍历所有配置
-    sylar::Config::Visit([](sylar::ConfigVarBase::ptr var){
-        SYLAR_LOG_INFO(g_logger) << "name=" << var->getName()
+    obeast::Config::Visit([](obeast::ConfigVarBase::ptr var){
+        OBEAST_LOG_INFO(g_logger) << "name=" << var->getName()
             << " description=" << var->getDescription()
             << " typename=" << var->getTypeName()
             << " value=" << var->toString();

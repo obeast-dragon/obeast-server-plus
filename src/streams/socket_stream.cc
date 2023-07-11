@@ -1,7 +1,7 @@
 #include "socket_stream.h"
 #include "../util.h"
 
-namespace sylar {
+namespace obeast {
 
 SocketStream::SocketStream(Socket::ptr sock, bool owner)
     :m_socket(sock)

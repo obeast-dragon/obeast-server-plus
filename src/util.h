@@ -5,8 +5,8 @@
  * @date 2021-06-08
  */
 
-#ifndef __SYLAR_UTIL_H__
-#define __SYLAR_UTIL_H__
+#ifndef __OBEAST_UTIL_H__
+#define __OBEAST_UTIL_H__
 
 #include <sys/types.h>
 #include <stdint.h>
@@ -16,7 +16,7 @@
 #include <vector>
 #include <iostream>
 
-namespace sylar {
+namespace obeast {
 
 /**
  * @brief 获取线程id
@@ -288,6 +288,6 @@ public:
 
 };
 
-} // namespace sylar
+} // namespace obeast
 
-#endif // __SYLAR_UTIL_H__
+#endif // __OBEAST_UTIL_H__

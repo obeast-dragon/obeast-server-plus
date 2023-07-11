@@ -4,14 +4,16 @@
  * @version 0.1
  * @date 2021-12-09
  */
-#include "daemon.h"
-#include "log.h"
-#include "config.h"
+
 #include <time.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+#include "daemon.h"
+#include "log.h"
+#include "config.h"
 
 namespace sylar {
 

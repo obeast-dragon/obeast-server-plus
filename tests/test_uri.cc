@@ -5,7 +5,7 @@
  * @date 2021-11-14
  */
 
-#include "sylar/sylar.h"
+#include "src/obeast.h"
 #include <iostream>
 
 int main(int argc, char * argv[]) {

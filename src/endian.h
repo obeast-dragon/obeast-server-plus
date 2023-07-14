@@ -1,7 +1,7 @@
 /**
  * @file endian.h
  * @brief 字节序操作函数(大端/小端)
- * @author obeast.yin
+ * @author obeas-dragon
  */
 #ifndef __OBEAST_ENDIAN_H__
 #define __OBEAST_ENDIAN_H__

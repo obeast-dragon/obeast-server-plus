@@ -2,7 +2,6 @@
  * @file daemon.h
  * @brief 守护进程启动
  * @version 0.1
- * @date 2021-12-09
  */
 
 #ifndef __OBEAST_DAEMON_H__

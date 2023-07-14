@@ -2,7 +2,6 @@
  * @file scheduler.h
  * @brief 协程调度器实现
  * @version 0.1
- * @date 2021-06-15
  */
 
 #ifndef __OBEAST_SCHEDULER_H__

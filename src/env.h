@@ -2,7 +2,6 @@
  * @file env.h
  * @brief 环境变量管理
  * @version 0.1
- * @date 2021-06-13
  */
 
 #ifndef __OBEAST_ENV_H__

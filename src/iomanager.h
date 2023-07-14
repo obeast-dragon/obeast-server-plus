@@ -2,7 +2,6 @@
  * @file iomanager.h
  * @brief IO协程调度器
  * @version 0.1
- * @date 2021-06-16
  */
 
 #ifndef __OBEAST_IOMANAGER_H__

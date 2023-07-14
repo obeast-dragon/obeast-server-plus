@@ -1,10 +1,7 @@
 /**
  * @file uri.h
  * @brief URI封装类
- * @author obeast.yin
- * @email 564628276@qq.com
- * @date 2019-06-13
- * @copyright Copyright (c) 2019年 obeast.yin All rights reserved (www.sylar.top)
+ * @author obeast-dragon
  */
 #ifndef __OBEAST_URI_H__
 #define __OBEAST_URI_H__

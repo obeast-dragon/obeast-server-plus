@@ -1,10 +1,7 @@
 /**
  * @file socket.h
  * @brief Socket封装
- * @author obeast.yin
- * @email 564628276@qq.com
- * @date 2019-06-05
- * @copyright Copyright (c) 2019年 obeast.yin All rights reserved (www.sylar.top)
+ * @author obeast-dragon
  */
 #ifndef __OBEAST_SOCKET_H__
 #define __OBEAST_SOCKET_H__

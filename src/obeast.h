@@ -2,7 +2,6 @@
  * @file sylar.h
  * @brief sylar all-in-one头文件，用于外部调用，本目录下的文件绝不应该包含这个头文件
  * @version 0.1
- * @date 2021-06-08
  *
  * @mainpage sylar C++高性能分布式服务器框架
  * <table>
